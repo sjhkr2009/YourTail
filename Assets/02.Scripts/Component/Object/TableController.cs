@@ -61,17 +61,31 @@ public class TableController : MonoBehaviour
 
     IEnumerator SetTable()
     {
+        yield return new WaitForSeconds(1f);
         while (GameManager.Instance.GameState == GameState.Idle)
         {
             yield return null;
 
-            yield return new WaitForSeconds(3f);
-
-            if (!HasEmptyTable()) continue;
+            if (!HasEmptyTable())
+            {
+                yield return new WaitForSeconds(1f);
+                continue;
+            }
 
             Customers newCustomer = GameManager.Data.GetRandomCustomer();
 
-            if (IsExistCustomer(newCustomer)) continue;
+            while (!newCustomer.isActive)
+            {
+                yield return null;
+
+                newCustomer = GameManager.Data.GetRandomCustomer();
+            }
+
+            if (IsExistCustomer(newCustomer))
+            {
+                yield return new WaitForSeconds(1f);
+                continue;
+            }
 
             while (true)
             {
@@ -84,6 +98,8 @@ public class TableController : MonoBehaviour
                     break;
                 }
             }
+
+            yield return new WaitForSeconds(2f);
         }
     }
 
