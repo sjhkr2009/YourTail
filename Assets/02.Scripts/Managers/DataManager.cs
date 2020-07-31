@@ -268,9 +268,9 @@ public class DataManager
             case GameState.Combine:
                 CurrentCocktail = MakeCocktail();
                 CurrentCorrectCheck();
+                SetReward();
                 break;
             case GameState.SetCocktail:
-                SetReward();
                 SaveData();
                 break;
         }
@@ -399,11 +399,33 @@ public class DataManager
         {
             case 1:
                 AddBirdCoin(1);
+                AddExp(15); //추후 정해진 로직에 따라 Exp 증가시키기
+                return;
+            case 0:
+                AddExp(8);
+                return;
+            case -1:
+                AddExp(3);
                 return;
             default:
                 return;
 
         }
+    }
+    public int beforeExp;
+    public int afterExp;
+    public bool levelUp;
+    public void AddExp(int value)
+    {
+        beforeExp = CurrentCustomer.Exp;
+        CurrentCustomer.Exp += value;
+        afterExp = CurrentCustomer.Exp;
+    }
+    void ResultReset()
+    {
+        beforeExp = 0;
+        afterExp = 0;
+        levelUp = false;
     }
 
     #endregion
@@ -427,6 +449,7 @@ public class DataManager
         foreach (Customers item in CustomerList)
         {
             GameData.SetLevel(item.Name, item.Level);
+            GameData.SetExp(item.Name, item.Exp);
         }
         GameData.SetBirdcoin(BirdCoin);
         foreach (Cocktail item in Recipe)
@@ -480,6 +503,7 @@ public class DataManager
         CurrentCocktail = null;
         CurrentBaseMaterials.Clear();
         CurrentSubMaterials.Clear();
+        ResultReset();
     }
     #endregion
 }

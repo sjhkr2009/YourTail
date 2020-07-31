@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using UnityEngine;
@@ -13,9 +14,18 @@ public class SetCocktailUI : UIBase_Popup
 
     enum Texts
     {
-        GradeText
+        GradeText,
+        CoinText,
+        LevelText
     }
 
+    enum Images
+    {
+        CustomerImage,
+        ExpImage
+    }
+    int grade;
+    DataManager data = GameManager.Data;
 
     void Start() => Init();
 
@@ -25,9 +35,21 @@ public class SetCocktailUI : UIBase_Popup
 
         Bind<Button>(typeof(Buttons));
         Bind<Text>(typeof(Texts));
+        Bind<Image>(typeof(Images));
+
+        data = GameManager.Data;
+        grade = data.CurrentGrade;
 
         GetButton((int)Buttons.NextButton).onClick.AddListener(GameManager.Instance.SetDialog);
         GetText((int)Texts.GradeText).text = GradeToText();
+
+        if (grade == 1) GetText((int)Texts.CoinText).text = "코인 획득!";
+        else GetText((int)Texts.CoinText).text = "";
+
+        GetImage((int)Images.CustomerImage).sprite = data.CurrentCustomer.image;
+        GetImage((int)Images.CustomerImage).SetNativeSize();
+
+        FillExpBar(data.beforeExp, data.afterExp, data.levelUp);
     }
     private void OnDestroy()
     {
@@ -35,8 +57,6 @@ public class SetCocktailUI : UIBase_Popup
     }
     string GradeToText()
     {
-        int grade = GameManager.Data.CurrentGrade;
-
         switch (grade)
         {
             case -1:
@@ -48,5 +68,39 @@ public class SetCocktailUI : UIBase_Popup
             default:
                 return "Error";
         }
+    }
+    void FillExpBar(int before, int after, bool levelUp)
+    {
+        Image fill = GetImage((int)Images.ExpImage);
+
+        if (!levelUp)
+        {
+            int required = Define.RequiredEXP[data.CurrentCustomer.Level];
+            float beforePercent = (float)before / required;
+            float afterPercent = (float)after / required;
+            fill.fillAmount = beforePercent;
+            fill.DOFillAmount(afterPercent, 1f).OnComplete(() =>
+            {
+                GetText((int)Texts.LevelText).text = $"호감도 변화: {(int)beforePercent}% → {(int)afterPercent}%";
+            });
+        }
+        else
+        {
+            float beforePercent = (float)before / Define.RequiredEXP[data.CurrentCustomer.Level - 1];
+
+            fill.fillAmount = (float)before / Define.RequiredEXP[data.CurrentCustomer.Level - 1];
+            fill.DOFillAmount(0.75f, 1f).OnComplete(() =>
+            {
+                fill.fillAmount = 0f;
+                fill.DOFillAmount((float)after / Define.RequiredEXP[data.CurrentCustomer.Level], 1f);
+                GetText((int)Texts.LevelText).text = $"호감도 상승! ({data.CurrentCustomer.Level - 1} → {data.CurrentCustomer.Level})";
+
+                GetText((int)Texts.LevelText).transform.localScale *= 0.8f;
+                GetText((int)Texts.LevelText).transform.DOScale(1f, 0.2f);
+            });
+
+        }
+
+
     }
 }

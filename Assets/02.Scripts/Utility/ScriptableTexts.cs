@@ -13,11 +13,12 @@ public class ScriptableTexts : ScriptableObject
     public List<string> GetDialog(Customers customer, int level = -1)
     {
         if (level == -1) level = customer.Level;
+        List<string> result = null;
 
         switch (customer.CustomerType)
         {
             case Define.CustomerType.Eagle:
-                return eagleScripts[level];
+                return eagleScripts.TryGetValue(level, out result) ? result : null;
             default:
                 Debug.Log("해당 캐릭터와 호감도에 맞는 텍스트가 없습니다.");
                 return null;

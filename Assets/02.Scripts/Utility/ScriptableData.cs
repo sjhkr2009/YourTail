@@ -1,12 +1,14 @@
 ﻿using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Database", menuName = "CustomDatabase/Database", order = int.MinValue + 2)]
 public class ScriptableData : ScriptableObject
 {
     [ShowInInspector, ReadOnly] public Dictionary<string, int> CustomerLevel { get; private set; } = new Dictionary<string, int>() { };
+    [ShowInInspector, ReadOnly] public Dictionary<string, int> CustomerExp { get; private set; } = new Dictionary<string, int>() { };
     int CustomerCount => CustomerLevel.Count;
     [ShowInInspector, ReadOnly] public int Birdcoin { get; private set; }
     [ShowInInspector, ReadOnly] public List<string> CollectedRecipe { get; private set; } = new List<string>();
@@ -20,6 +22,11 @@ public class ScriptableData : ScriptableObject
         if (CustomerLevel.ContainsKey(name)) CustomerLevel[name] = level;
         else CustomerLevel.Add(name, level);
     }
+    public void SetExp(string name, int exp)
+    {
+        if (CustomerLevel.ContainsKey(name)) CustomerLevel[name] = exp;
+        else CustomerLevel.Add(name, exp);
+    }
     public void SetBirdcoin(int value) => Birdcoin = value;
     public void SetRecipe(string id) => CollectedRecipe.Add(id);
     public void SetMaterial(string id) => CollectedSubmaterial.Add(id);
@@ -29,6 +36,7 @@ public class ScriptableData : ScriptableObject
     public void Save()
     {
         SaveLevel();
+        SaveExp();
         SaveCoin();
         SaveRecipe();
         SaveMaterials();
@@ -39,7 +47,18 @@ public class ScriptableData : ScriptableObject
         foreach (var item in CustomerLevel)
         {
             PlayerPrefs.SetInt(item.Key, item.Value);
-            PlayerPrefs.SetString($"Customer{count}", item.Key);
+            PlayerPrefs.SetString($"Customer{count}Level", item.Key);
+            count++;
+        }
+        PlayerPrefs.SetInt(nameof(CustomerCount), CustomerCount);
+    }
+    void SaveExp()
+    {
+        int count = 0;
+        foreach (var item in CustomerExp)
+        {
+            PlayerPrefs.SetInt(item.Key, item.Value);
+            PlayerPrefs.SetString($"Customer{count}Exp", item.Key);
             count++;
         }
         PlayerPrefs.SetInt(nameof(CustomerCount), CustomerCount);
@@ -68,6 +87,7 @@ public class ScriptableData : ScriptableObject
     public void Load()
     {
         LoadLevel();
+        LoadExp();
         LoadCoin();
         LoadRecipe();
         LoadMaterials();
@@ -79,10 +99,22 @@ public class ScriptableData : ScriptableObject
         CustomerLevel.Clear();
         for (int i = 0; i < count; i++)
         {
-            string key = PlayerPrefs.GetString($"Customer{i}");
+            string key = PlayerPrefs.GetString($"Customer{i}Level");
             if (string.IsNullOrEmpty(key)) continue;
             int value = PlayerPrefs.GetInt(key);
             CustomerLevel.Add(key, value);
+        }
+    }
+    void LoadExp()
+    {
+        int count = PlayerPrefs.GetInt(nameof(CustomerCount));
+        CustomerExp.Clear();
+        for (int i = 0; i < count; i++)
+        {
+            string key = PlayerPrefs.GetString($"Customer{i}Exp");
+            if (string.IsNullOrEmpty(key)) continue;
+            int value = PlayerPrefs.GetInt(key);
+            CustomerExp.Add(key, value);
         }
     }
     void LoadCoin() => Birdcoin = PlayerPrefs.GetInt(nameof(Birdcoin));

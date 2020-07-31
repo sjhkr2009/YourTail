@@ -11,17 +11,36 @@ public class Customers
     public Sprite image;
     public float Satisfaction { get; set; }
     private int _level = 1;
-    public int MaxLevel { get; private set; }
-    public bool isActive;
-    protected void SetMaxLevel(int value)
-    {
-        MaxLevel = value;
-        Level = 1;
-    }
     public int Level
     {
         get => _level;
         set { _level = Mathf.Clamp(value, 1, MaxLevel); }
+    }
+    public int MaxLevel { get; private set; }
+    protected void SetMaxLevel(int value)
+    {
+        MaxLevel = Mathf.Clamp(value, 1, Define.MaxLevel);
+        Level = 1;
+        Exp = 0;
+    }
+    public bool isActive;
+    private int _exp;
+    public int Exp
+    {
+        get => _exp;
+        set
+        {
+            if(value > Define.RequiredEXP[_level])
+            {
+                Level++;
+                GameManager.Data.levelUp = true;
+                Exp = (value - Define.RequiredEXP[_level]);
+            }
+            else
+            {
+                _exp = value;
+            }
+        }
     }
     private int _currentIndex;
     public int CurrentIndex

@@ -27,7 +27,7 @@ public class SplashController : MonoBehaviour
         DOVirtual.DelayedCall(3f, () =>
         {
             DOTween.Clear();
-            SceneManager.LoadScene("TitleMenu");
+            SceneManager.LoadScene("02_TitleMenu");
         });
     }
 }

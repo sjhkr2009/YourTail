@@ -166,4 +166,9 @@ public class UIManager
     {
         while (popupUI.Count > 0) ClosePopupUI();
     }
+
+    public Sprite NullImage()
+    {
+        return GameManager.Resource.Load<Sprite>("Sprites/UI/NullImage");
+    }
 }

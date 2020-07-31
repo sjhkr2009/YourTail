@@ -88,8 +88,18 @@ public class Define
         매우셈 = 4
     }
 
+    /// <summary>
+    /// 베이스 재료의 최대 개수를 지정합니다.
+    /// </summary>
     public const int MaxBaseMaterial = 1;
+    /// <summary>
+    /// 부재료의 최대 개수를 지정합니다.
+    /// </summary>
     public const int MaxSubMaterial = 3;
+    /// <summary>
+    /// 캐릭터가 가질 수 있는 최대 레벨을 지정합니다.
+    /// </summary>
+    public const int MaxLevel = 5;
 
 
     /// <summary>
@@ -129,4 +139,7 @@ public class Define
     /// 베이스 재료 사진의 크기를 반환합니다.
     /// </summary>
     public static Vector2 baseMaterialSize => new Vector2(170f, 586f);
+
+
+    public static int[] RequiredEXP => new int[MaxLevel] { 1, 10, 15, 20, 25 };
 }
