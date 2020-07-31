@@ -103,7 +103,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cd968fe28a1454ed98525b0d1156685f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a2099e56a6da0914c9dd70d578c672d0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -356,6 +356,7 @@ MonoBehaviour:
   changeScale: 1
   changePosition: 0
   changeFade: 0
+  changeRotation: 0
   ignoreTimescale: 1
   duration: 0.15
   delay: 0
@@ -366,6 +367,12 @@ MonoBehaviour:
   positionMoveMode: 5
   alphaTarget: 0
   alphaMoveMode: 5
+  isUI: 1
+  image: {fileID: 0}
+  sprite: {fileID: 0}
+  rotationTarget: {x: 0, y: 0, z: 0}
+  rotationMoveMode: 5
+  rotationRotateMode: 0
   onEnable: 1
 --- !u!1 &790912579740989190
 GameObject:
@@ -960,7 +967,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cd968fe28a1454ed98525b0d1156685f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a2099e56a6da0914c9dd70d578c672d0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1802,7 +1809,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cd968fe28a1454ed98525b0d1156685f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a2099e56a6da0914c9dd70d578c672d0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2010,7 +2017,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cd968fe28a1454ed98525b0d1156685f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a2099e56a6da0914c9dd70d578c672d0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

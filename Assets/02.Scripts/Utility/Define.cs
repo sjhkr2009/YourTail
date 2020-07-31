@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Define
@@ -140,6 +141,17 @@ public class Define
     /// </summary>
     public static Vector2 baseMaterialSize => new Vector2(170f, 586f);
 
-
+    /// <summary>
+    /// 호감도 단계별로 필요한 호감도의 양입니다. 호감도 단계가 3 → 4단계로 상승하기 위해서는 RequiredEXP[3] 만큼의 호감도가 필요합니다.
+    /// </summary>
     public static int[] RequiredEXP => new int[MaxLevel] { 1, 10, 15, 20, 25 };
+
+    /// <summary>
+    /// 게임 좌측 하단의 메뉴 아이콘 클릭 시, 메뉴 아이콘들이 나오는 시간을 설정합니다.
+    /// </summary>
+    public const float OpenMenuDuration = 0.22f;
+    /// <summary>
+    /// 게임 좌측 하단 메뉴 아이콘의 간격을 나타냅니다.
+    /// </summary>
+    public const float MenuIconSpacing = 125f;
 }
