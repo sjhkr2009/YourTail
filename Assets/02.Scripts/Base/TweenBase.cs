@@ -19,6 +19,7 @@ public class TweenBase : MonoBehaviour
     [SerializeField, BoxGroup("애니메이션 종류 선택")] bool changeScale;
     [SerializeField, BoxGroup("애니메이션 종류 선택")] bool changePosition;
     [SerializeField, BoxGroup("애니메이션 종류 선택")] bool changeFade;
+    [SerializeField, BoxGroup("애니메이션 종류 선택")] bool changeRotation;
 
     [SerializeField, BoxGroup("설정")] bool ignoreTimescale = true;
     [SerializeField, BoxGroup("설정")] float duration = 0.5f;
@@ -36,16 +37,36 @@ public class TweenBase : MonoBehaviour
 
     [SerializeField, ShowIf(nameof(changeFade)), BoxGroup("설정"), MinValue(0f), MaxValue(1f), PropertyOrder(3)] float alphaTarget;
     [SerializeField, ShowIf(nameof(changeFade)), BoxGroup("설정"), PropertyOrder(3)] Ease alphaMoveMode = Ease.InQuad;
+    [SerializeField, ShowIf(nameof(changeFade)), BoxGroup("설정"), PropertyOrder(3)] bool isUI = true;
+    [SerializeField, ShowIf(nameof(changeFade)), ShowIf(nameof(isUI)), BoxGroup("설정"), PropertyOrder(3)] protected Graphic image;
+    [SerializeField, ShowIf(nameof(changeFade)), HideIf(nameof(isUI)), BoxGroup("설정"), PropertyOrder(3)] protected SpriteRenderer sprite;
+
+    [SerializeField, ShowIf(nameof(changeRotation)), BoxGroup("설정"), MinValue(0f), MaxValue(1f), PropertyOrder(4)] Vector3 rotationTarget;
+    [SerializeField, ShowIf(nameof(changeRotation)), BoxGroup("설정"), PropertyOrder(4)] Ease rotationMoveMode = Ease.InQuad;
+    [SerializeField, ShowIf(nameof(changeRotation)), BoxGroup("설정"), PropertyOrder(4)] RotateMode rotationRotateMode = RotateMode.Fast;
     #endregion
 
     Vector3 originScale;
     Vector3 originPos;
+    Vector3 originRot;
     float originAlpha;
-    protected Graphic image;
 
     private void Awake()
     {
-        image = GetComponent<Graphic>();
+        if (isUI && image == null) image = GetComponent<Graphic>();
+        if (!isUI && sprite == null) sprite = GetComponent<SpriteRenderer>();
+    }
+
+    protected void ChangeRotation()
+    {
+        Vector3 target = transform.rotation.eulerAngles;
+        if (isFrom) transform.rotation = Quaternion.Euler(rotationTarget);
+        else target = rotationTarget;
+
+        DOVirtual.DelayedCall(delay, () =>
+        {
+            transform.DORotate(rotationTarget, duration, rotationRotateMode).SetEase(rotationMoveMode);
+        }, ignoreTimescale);
     }
 
     protected void ChangeScale()
@@ -74,15 +95,20 @@ public class TweenBase : MonoBehaviour
 
     protected void ChangeFade()
     {
-        if (image == null) return;
-        float target = image.color.a;
+        if (image == null && sprite == null) return;
+        float target = isUI ? image.color.a : sprite.color.a;
 
-        if (isFrom) image.DOFade(alphaTarget, 0f);
+        if (isFrom)
+        {
+            if (isUI) image.DOFade(alphaTarget, 0f);
+            else sprite.DOFade(alphaTarget, 0f);
+        }
         else target = alphaTarget;
 
         DOVirtual.DelayedCall(delay, () =>
         {
-            image.DOFade(target, duration).SetEase(alphaMoveMode);
+            if(isUI) image.DOFade(target, duration).SetEase(alphaMoveMode);
+            else sprite.DOFade(target, duration).SetEase(alphaMoveMode);
         }, ignoreTimescale);
     }
 
@@ -90,14 +116,20 @@ public class TweenBase : MonoBehaviour
     {
         if (changeScale) originScale = transform.localScale;
         if (changePosition) originPos = transform.position;
-        if (image != null && changeFade) originAlpha = image.color.a;
+        if (changeFade && (sprite != null || image != null)) originAlpha = isUI ? image.color.a : sprite.color.a;
+        if (changeRotation) originRot = transform.rotation.eulerAngles;
     }
 
     public void DoOrigin()
     {
         if (changeScale) transform.localScale = originScale;
         if (changePosition) transform.position = originPos;
-        if (image != null && changeFade) image.DOFade(originAlpha, 0f);
+        if (changeFade && (sprite != null || image != null))
+        {
+            if (isUI) image.DOFade(originAlpha, 0f);
+            else sprite.DOFade(originAlpha, 0f);
+        }
+        if (changeRotation) transform.rotation = Quaternion.Euler(originRot);
     }
 
     public void DoChange()
@@ -105,6 +137,17 @@ public class TweenBase : MonoBehaviour
         if (changePosition) ChangePosition();
         if (changeScale) ChangeScale();
         if (changeFade) ChangeFade();
+        if (changeRotation) ChangeRotation();
+    }
+
+    [Button("현재 값을 타겟으로 설정")]
+    void SetTarget()
+    {
+        SetOrigin();
+        if (changeScale) scaleTarget = originScale;
+        if (changePosition) positionTarget = originPos;
+        if (changeFade && (sprite != null || image != null)) alphaTarget = originAlpha;
+        if (changeRotation) rotationTarget = originRot;
     }
 
     private void OnDestroy()

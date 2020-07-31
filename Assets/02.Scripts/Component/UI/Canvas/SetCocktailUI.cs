@@ -26,7 +26,7 @@ public class SetCocktailUI : UIBase_Popup
         Bind<Button>(typeof(Buttons));
         Bind<Text>(typeof(Texts));
 
-        GetButton((int)Buttons.NextButton).onClick.AddListener(() => { GameManager.Instance.GameState = GameState.Idle; });
+        GetButton((int)Buttons.NextButton).onClick.AddListener(GameManager.Instance.SetDialog);
         GetText((int)Texts.GradeText).text = GradeToText();
     }
     private void OnDestroy()

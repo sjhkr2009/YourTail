@@ -8,6 +8,7 @@ public class MakeCocktailUI : UIBase_Popup
 {
     public Cocktail myCocktail = null;
     [SerializeField] Sprite makingImage;
+    CocktailMaking makingUI;
     enum Texts
     {
         CocktailName,
@@ -41,12 +42,16 @@ public class MakeCocktailUI : UIBase_Popup
     {
         GetButton((int)Buttons.NextButton).onClick.RemoveAllListeners();
         GetButton((int)Buttons.RetryButton).onClick.RemoveAllListeners();
+
+        makingUI.OnEndMaking -= SetResult;
     }
     public override void Init()
     {
         base.Init();
 
-        GameManager.UI.OpenPopupUI<CocktailMaking>();
+        makingUI = GameManager.UI.OpenPopupUI<CocktailMaking>();
+        makingUI.OnEndMaking -= SetResult;
+        makingUI.OnEndMaking += SetResult;
 
         Bind<Text>(typeof(Texts));
         Bind<Button>(typeof(Buttons));
@@ -61,17 +66,11 @@ public class MakeCocktailUI : UIBase_Popup
 
         Image cocktailImage = GetImage((int)Images.CocktailImage);
         cocktailImage.sprite = makingImage;
-
-        cocktailImage.transform.DORotate(Vector3.forward * -360f, 1f, RotateMode.LocalAxisAdd).OnComplete(() =>
-        {
-            Debug.Log("칵테일 출력");
-            myCocktail = GameManager.Data.CurrentCocktail;
-            SetResult();
-        });
     }
 
     void SetResult()
     {
+        myCocktail = GameManager.Data.CurrentCocktail;
         if (myCocktail == null) return;
 
         GetImage((int)Images.CocktailImage).sprite = myCocktail.image;

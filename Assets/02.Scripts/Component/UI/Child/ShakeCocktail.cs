@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using System;
 
 public class ShakeCocktail : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -17,6 +18,8 @@ public class ShakeCocktail : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public Slider processUI;
     public Image processColor;
     float process;
+
+    public Action OnMakingEnd = () => { };
 
     private void Start()
     {
@@ -84,7 +87,7 @@ public class ShakeCocktail : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
         transform.DOKill();
         isEnd = true;
-        GameManager.UI.ClosePopupUI<CocktailMaking>();
+        OnMakingEnd();
     }
 
     void UpdateProcessUI(float percent)

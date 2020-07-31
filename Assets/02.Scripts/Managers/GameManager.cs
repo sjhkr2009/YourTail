@@ -142,16 +142,16 @@ public class GameManager : MonoBehaviour
     {
         UI.CloseAllPopup();
         UI.OpenPopupUI<SetCocktailUI>();
-
-        //테스트용
-        if (Data.CurrentCustomer == Data.CustomerNameData[new Eagle().Name]) UI.OpenPopupUI<DialogUI>();
     }
 
-    //임시 진행 버튼
-    //void InNextState()
-    //{
-    //    GameState = (GameState)(((int)GameState + 1) % 6);
-    //}
+    public void SetDialog()
+    {
+        if (Data.CurrentCustomer == Data.CustomerNameData[new Eagle().Name])
+            UI.OpenPopupUI<DialogUI>();
+        else
+            GameState = GameState.Idle;
+    }
+
     void OnEscape()
     {
         if (UI.TryClosePopupUI<MaterialInfoWindow>()) return;

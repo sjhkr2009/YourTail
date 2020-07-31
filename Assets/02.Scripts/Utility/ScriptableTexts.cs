@@ -20,7 +20,7 @@ public class ScriptableTexts : ScriptableObject
                 return eagleScripts[level];
             default:
                 Debug.Log("해당 캐릭터와 호감도에 맞는 텍스트가 없습니다.");
-                return new List<string>();
+                return null;
         }
     }
 

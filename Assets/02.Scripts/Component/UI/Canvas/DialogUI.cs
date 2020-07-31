@@ -39,6 +39,12 @@ public class DialogUI : UIBase_Popup
 
         currentIndex = 0;
         dialogList = DataManager.DialogData.GetDialog(GameManager.Data.CurrentCustomer);
+        if(dialogList == null)
+        {
+            Debug.Log("대사 탐색 실패");
+            GameManager.UI.ClosePopupUI<DialogUI>();
+            return;
+        }
 
         SetText(currentIndex);
         GetButton((int)Buttons.NextButton).onClick.AddListener(SetNextText);
@@ -73,7 +79,7 @@ public class DialogUI : UIBase_Popup
             GetImage((int)Images.NextButton).sprite = endButtonImage;
 
         GetButton((int)Buttons.NextButton).onClick.RemoveAllListeners();
-        GetButton((int)Buttons.NextButton).onClick.AddListener(() => { GameManager.UI.ClosePopupUI<DialogUI>(); });
+        GetButton((int)Buttons.NextButton).onClick.AddListener(() => { GameManager.Instance.GameState = GameState.Idle; });
     }
     private void OnDestroy()
     {

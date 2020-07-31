@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5034762075037106183}
   - component: {fileID: 6649866460862627238}
   m_Layer: 5
-  m_Name: Image
+  m_Name: shaker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -514,6 +514,7 @@ GameObject:
   - component: {fileID: 8015891586140191507}
   - component: {fileID: 8015891586140191506}
   - component: {fileID: 8015891586140191509}
+  - component: {fileID: 1127829904682930497}
   m_Layer: 5
   m_Name: CocktailMaking
   m_TagString: Untagged
@@ -604,6 +605,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
+--- !u!114 &1127829904682930497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8015891586140191508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ff40bc7d94b6244290089056b25fc27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8015891586208187746
 GameObject:
   m_ObjectHideFlags: 0
