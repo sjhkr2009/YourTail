@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         }
     }
     void StateChange(GameState state) { GameState = state; }
-
+    public bool ignoreOnMouse = false;
 
     private void Start()
     {

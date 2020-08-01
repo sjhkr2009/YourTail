@@ -18,8 +18,9 @@ public class EscapeOnClick : MonoBehaviour, IPointerClickHandler
 
     void OnMouseUpAsButton()
     {
-        if (interactableOn.Count > 0 && !interactableOn.Contains(GameManager.Instance.GameState))
-            return;
+        if (interactableOn.Count > 0 && !interactableOn.Contains(GameManager.Instance.GameState)) return;
+
+        if (GameManager.Instance.ignoreOnMouse) return;
 
         if (!isUI) GameManager.Input.InEscape();
     }

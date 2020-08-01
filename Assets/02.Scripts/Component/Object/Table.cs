@@ -53,6 +53,8 @@ public class Table : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
+        if (GameManager.Instance.ignoreOnMouse == true) return;
+        
         EventOnSelectCustomer(currentCustomer);
         Debug.Log(currentCustomer.GetOrder().orderContents);
     }
