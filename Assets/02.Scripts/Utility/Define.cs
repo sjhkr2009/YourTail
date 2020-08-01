@@ -149,11 +149,11 @@ public class Define
     /// <summary>
     /// 게임 좌측 하단의 메뉴 아이콘 클릭 시, 메뉴 아이콘들이 나오는 시간을 설정합니다.
     /// </summary>
-    public const float OpenMenuDuration = 0.22f;
+    public const float OpenMenuDuration = 0.25f;
     /// <summary>
     /// 게임 좌측 하단 메뉴 아이콘의 간격을 나타냅니다.
     /// </summary>
-    public const float MenuIconSpacing = 125f;
+    public const float MenuIconSpacing = 120f;
 
     /// <summary>
     /// 칵테일의 도수를 시각적으로 표시할 때, 도수에 맞는 색상으로 변환시킵니다. (낮을수록 청록색, 높을수록 빨강색 계열을 갖게 됩니다)
