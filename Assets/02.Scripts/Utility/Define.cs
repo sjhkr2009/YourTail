@@ -154,4 +154,17 @@ public class Define
     /// 게임 좌측 하단 메뉴 아이콘의 간격을 나타냅니다.
     /// </summary>
     public const float MenuIconSpacing = 125f;
+
+    /// <summary>
+    /// 칵테일의 도수를 시각적으로 표시할 때, 도수에 맞는 색상으로 변환시킵니다. (낮을수록 청록색, 높을수록 빨강색 계열을 갖게 됩니다)
+    /// </summary>
+    /// <param name="proof">도수를 입력하세요. 퍼센트를 그대로 입력해도 되지만, 최대 도수와 비교하여 0과 1 사이의 숫자로 입력하는 것이 권장됩니다.</param>
+    /// <returns></returns>
+    public static Color ProofToColor(float proof)
+    {
+        if (proof > 1f) proof = proof / CocktailMaxProof;
+        
+        float hue = Mathf.Clamp(0.5f - (proof * 0.6f), 0f, 0.5f);
+        return Color.HSVToRGB(hue, 0.5f, 1f);
+    }
 }

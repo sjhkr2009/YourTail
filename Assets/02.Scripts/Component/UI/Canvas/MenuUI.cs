@@ -41,6 +41,11 @@ public class MenuUI : UIBase_Scene
         }
 
         //UI컬렉션 추가 시 컬렉션 UI를 여는 기능을 각 버튼에 할당할 것
+        GetButton((int)Buttons.OpenCockList).onClick.AddListener(() =>
+        {
+            GameManager.UI.OpenPopupUI<CollectionUI>();
+            MenuOnOff(true);
+        });
     }
     private void OnDestroy()
     {

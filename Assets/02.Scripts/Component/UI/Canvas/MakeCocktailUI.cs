@@ -82,7 +82,7 @@ public class MakeCocktailUI : UIBase_Popup
             {
                 GetText((int)Texts.CocktailProof).text = $"{myCocktail.Proof}%";
             });
-        GetImage((int)Images.ProofSliderColor).DOColor(ProofToColor(proofNormalize), 0.7f);
+        GetImage((int)Images.ProofSliderColor).DOColor(Define.ProofToColor(proofNormalize), 0.7f);
 
         GetText((int)Texts.CocktailTag).text = ListToString(myCocktail.GetTagToString());
         GetText((int)Texts.CocktailInfo).text = myCocktail.Info;
@@ -97,10 +97,5 @@ public class MakeCocktailUI : UIBase_Popup
             if (i != list.Count - 1) result += ", ";
         }
         return result;
-    }
-    Color ProofToColor(float proof)
-    {
-        float hue = Mathf.Clamp(0.5f - (proof * 0.6f), 0f, 0.5f);
-        return Color.HSVToRGB(hue, 0.5f, 1f);
     }
 }
