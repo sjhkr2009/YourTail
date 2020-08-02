@@ -72,6 +72,8 @@ public class SetCocktailUI : UIBase_Popup
     void FillExpBar(int before, int after, bool levelUp)
     {
         Image fill = GetImage((int)Images.ExpImage);
+        Button button = GetButton((int)Buttons.NextButton);
+        button.interactable = false;
 
         if (!levelUp)
         {
@@ -82,6 +84,7 @@ public class SetCocktailUI : UIBase_Popup
             fill.DOFillAmount(afterPercent, 1f).OnComplete(() =>
             {
                 GetText((int)Texts.LevelText).text = $"호감도 변화: {(int)beforePercent}% → {(int)afterPercent}%";
+                button.interactable = true;
             });
         }
         else
@@ -92,12 +95,15 @@ public class SetCocktailUI : UIBase_Popup
             fill.DOFillAmount(0.75f, 1f).OnComplete(() =>
             {
                 fill.fillAmount = 0f;
-                fill.DOFillAmount((float)after / Define.RequiredEXP[data.CurrentCustomer.Level], 1f);
+                fill.DOFillAmount((float)after / Define.RequiredEXP[data.CurrentCustomer.Level], 1f).OnComplete(() =>
+                {
+                    button.interactable = true;
+                });
                 GetText((int)Texts.LevelText).text = $"호감도 상승! ({data.CurrentCustomer.Level - 1} → {data.CurrentCustomer.Level})";
 
                 GetText((int)Texts.LevelText).transform.localScale *= 0.8f;
                 GetText((int)Texts.LevelText).transform.DOScale(1f, 0.2f);
-            });
+            }).SetEase(Ease.Linear);
 
         }
 

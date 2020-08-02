@@ -25,6 +25,7 @@ public class DialogUI : UIBase_Popup
 
     private int currentIndex = 0;
     private List<string> dialogList = new List<string>();
+    Text dialogText;
     [SerializeField] Sprite endButtonImage;
 
     void Start() => Init();
@@ -46,6 +47,8 @@ public class DialogUI : UIBase_Popup
             return;
         }
 
+        dialogText = GetText((int)Texts.DialogText);
+
         SetText(currentIndex);
         GetButton((int)Buttons.NextButton).onClick.AddListener(SetNextText);
 
@@ -58,9 +61,11 @@ public class DialogUI : UIBase_Popup
     {
         if (index >= dialogList.Count) return;
 
+        dialogText.DOKill();
+
         string text = dialogList[index];
-        GetText((int)Texts.DialogText).text = "";
-        GetText((int)Texts.DialogText).DOText(text, text.Length * Define.DoTextSpeedFast);
+        dialogText.text = "";
+        dialogText.DOText(text, text.Length * Define.DoTextSpeedFast);
 
     }
     void SetNextText()
