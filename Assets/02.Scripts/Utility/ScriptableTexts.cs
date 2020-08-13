@@ -32,10 +32,13 @@ public class ScriptableTexts : ScriptableObject
 
     void SetEagelScript()
     {
-        eagleScripts.Add(1, new List<string>()
+        if (!eagleScripts.ContainsKey(1))
         {
-            "허허~ 분위기 좋구만~!! 여기 쐬주 한잔에,,,,",
-            "읍,,따고~? 요즘 메뉴는,, 알아먹기도 힘들구만!!"
-        });
+            eagleScripts.Add(1, new List<string>()
+            {
+                "허허~ 분위기 좋구만~!! 여기 쐬주 한잔에,,,,",
+                "읍,,따고~? 요즘 메뉴는,, 알아먹기도 힘들구만!!"
+            });
+        }
     }
 }

@@ -495,10 +495,11 @@ public class DataManager
     public void LoadData()
     {
         foreach (var item in GameData.CustomerLevel)
-        {
-            
             CustomerNameData[item.Key].Level = item.Value;
-        }
+
+        foreach (var item in GameData.CustomerExp)
+            CustomerNameData[item.Key].Exp = item.Value;
+
         BirdCoin = GameData.Birdcoin;
         Recipe.Clear();
         foreach (string item in GameData.CollectedRecipe)

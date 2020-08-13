@@ -84,13 +84,11 @@ public class GameManager : MonoBehaviour
         _data.LoadFromPlayerPrefs();
 
         Input.InputStateChange -= StateChange;
-        //Input.InputNextState -= InNextState;
         Input.InputEscape -= OnEscape;
         Input.InputRetryCocktail -= OnRetryCocktail;
         OnGameStateChange -= Data.OnGameStateChange;
 
         Input.InputStateChange += StateChange;
-        //Input.InputNextState += InNextState;
         Input.InputEscape += OnEscape;
         Input.InputRetryCocktail += OnRetryCocktail;
         OnGameStateChange += Data.OnGameStateChange;
@@ -157,6 +155,7 @@ public class GameManager : MonoBehaviour
         if (UI.TryClosePopupUI<MaterialInfoWindow>()) return;
         if (UI.TryClosePopupUI<CheckBeforeShake>()) return;
         if (UI.TryClosePopupUI<OrderInfoWindow>()) return;
+        if (UI.TryClosePopupUI<OrderBubble>()) return;
 
         //추후 옵션창을 추가하게 된다면, 실패 시 옵션창을 띄울 것.
     }
