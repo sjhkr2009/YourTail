@@ -181,6 +181,7 @@ MonoBehaviour:
   changeScale: 0
   changePosition: 0
   changeFade: 1
+  changeRotation: 0
   ignoreTimescale: 1
   duration: 0.5
   delay: 0
@@ -191,6 +192,12 @@ MonoBehaviour:
   positionMoveMode: 5
   alphaTarget: 0
   alphaMoveMode: 1
+  isUI: 1
+  image: {fileID: 0}
+  sprite: {fileID: 0}
+  rotationTarget: {x: 0, y: 0, z: 0}
+  rotationMoveMode: 5
+  rotationRotateMode: 0
   onEnable: 0
 --- !u!1 &3096560259419031857
 GameObject:
@@ -395,6 +402,7 @@ MonoBehaviour:
   changeScale: 1
   changePosition: 0
   changeFade: 0
+  changeRotation: 0
   ignoreTimescale: 1
   duration: 0.12
   delay: 0.18
@@ -405,6 +413,12 @@ MonoBehaviour:
   positionMoveMode: 5
   alphaTarget: 0
   alphaMoveMode: 5
+  isUI: 1
+  image: {fileID: 0}
+  sprite: {fileID: 0}
+  rotationTarget: {x: 0, y: 0, z: 0}
+  rotationMoveMode: 5
+  rotationRotateMode: 0
   onEnable: 0
 --- !u!1 &3745330763824876432
 GameObject:
@@ -496,6 +510,7 @@ MonoBehaviour:
   changeScale: 1
   changePosition: 0
   changeFade: 0
+  changeRotation: 0
   ignoreTimescale: 1
   duration: 0.2
   delay: 0
@@ -506,6 +521,12 @@ MonoBehaviour:
   positionMoveMode: 5
   alphaTarget: 0
   alphaMoveMode: 5
+  isUI: 1
+  image: {fileID: 0}
+  sprite: {fileID: 0}
+  rotationTarget: {x: 0, y: 0, z: 0}
+  rotationMoveMode: 5
+  rotationRotateMode: 0
   onEnable: 0
 --- !u!1 &5742631816745197626
 GameObject:
