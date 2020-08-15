@@ -12,7 +12,6 @@ public class SelectSubMaterialUI : UIBase_Popup
         LimeJuice,
         LemonJuice,
         GrenadineSyrup,
-        TonicWater,
         OrangeLiqueur,
         SodaWater,
         Amaretto,

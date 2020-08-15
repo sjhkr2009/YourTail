@@ -165,7 +165,7 @@ public class DataManager
         AddSub(new Smt_LimeJuice());
         AddSub(new Smt_LemonJuice());
         AddSub(new Smt_GrenadineSyrup());
-        AddSub(new Smt_TonicWater());
+        //AddSub(new Smt_TonicWater());
 
         AddSub(new Smt_OrangeLiqueur());
         AddSub(new Smt_SodaWater());
@@ -234,7 +234,7 @@ public class DataManager
         AddCocktail(new Ckt_Olympic());
         AddCocktail(new Ckt_JackRose());
 
-        AddCocktail(new Ckt_Classic());
+        //AddCocktail(new Ckt_Classic());
         AddCocktail(new Ckt_FrenchConnection());
         AddCocktail(new Ckt_HavardCooler());
         AddCocktail(new Ckt_CafeRoyal());
