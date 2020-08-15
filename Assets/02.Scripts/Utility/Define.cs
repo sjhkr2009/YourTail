@@ -147,9 +147,9 @@ public class Define
     public const float ImageScale_BaseSelectUI = 1f;
 
     /// <summary>
-    /// 베이스 재료 사진의 크기를 반환합니다.
+    /// 재료 사진의 크기를 반환합니다.
     /// </summary>
-    public static Vector2 baseMaterialSize => new Vector2(170f, 586f);
+    public static Vector2 MaterialSize => new Vector2(170f, 586f);
 
     /// <summary>
     /// 호감도 단계별로 필요한 호감도의 양입니다. 호감도 단계가 3 → 4단계로 상승하기 위해서는 RequiredEXP[3] 만큼의 호감도가 필요합니다.

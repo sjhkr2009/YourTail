@@ -107,7 +107,7 @@ public class SelectSubMaterialUI : UIBase_Popup
     {
         Image _image = GetImage(index);
         MaterialIcon icon = _image.gameObject.GetOrAddComponent<MaterialIcon>();
-        icon.myMaterial = GameManager.Data.SubMaterialIndexData[index + 1];
+        icon.myMaterial = GameManager.Data.SubMaterialList[index];
 
         _image.sprite = icon.myMaterial.image;
     }

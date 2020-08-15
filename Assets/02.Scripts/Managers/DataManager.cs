@@ -16,6 +16,7 @@ public class DataManager
     public Dictionary<int, BaseMaterials> BaseMaterialIndexData { get; private set; } = new Dictionary<int, BaseMaterials>();
     public Dictionary<string, SubMaterials> SubMaterialIdData { get; private set; } = new Dictionary<string, SubMaterials>();
     public Dictionary<int, SubMaterials> SubMaterialIndexData { get; private set; } = new Dictionary<int, SubMaterials>();
+    public List<SubMaterials> SubMaterialList { get; private set; } = new List<SubMaterials>();
     public Dictionary<string, Cocktail> CocktailData { get; private set; } = new Dictionary<string, Cocktail>();
     public List<Cocktail> CocktailList { get; private set; } = new List<Cocktail>();
 
@@ -254,6 +255,7 @@ public class DataManager
     {
         SubMaterialIdData.Add(item.Id, item);
         SubMaterialIndexData.Add(item.Index, item);
+        SubMaterialList.Add(item);
     }
     void AddCocktail(Cocktail item)
     {
