@@ -79,9 +79,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        _data.LoadFromPlayerPrefs();
+
         GameState = GameState.Idle;
         Sound.Init();
-        _data.LoadFromPlayerPrefs();
 
         Input.InputStateChange -= StateChange;
         Input.InputEscape -= OnEscape;

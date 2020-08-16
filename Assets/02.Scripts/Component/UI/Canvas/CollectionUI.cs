@@ -143,7 +143,7 @@ public class CollectionUI : UIBase_Popup
 
         foreach (Cocktail item in cockList)
         {
-            if (item.GetProofGrade() == grade)
+            if (item.GetProofGradeToInt() == grade)
                 AddFiltering(item);
         }
         SetFilteredRecipes();
@@ -153,7 +153,7 @@ public class CollectionUI : UIBase_Popup
         List<Cocktail> _deleteList = new List<Cocktail>();
         foreach (Cocktail item in filteringList)
         {
-            if (item.GetProofGrade() == grade)
+            if (item.GetProofGradeToInt() == grade)
                 _deleteList.Add(item);
         }
         foreach (Cocktail item in _deleteList)

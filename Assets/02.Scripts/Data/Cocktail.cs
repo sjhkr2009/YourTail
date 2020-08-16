@@ -104,13 +104,14 @@ public class Cocktail
 
         return tagList;
     }
-    public int GetProofGrade()
+    public int GetProofGradeToInt() => (int)GetProofGrade();
+    public Define.ProofGrade GetProofGrade()
     {
-        if (Proof <= Define.ProofGrade0LowerThan) return (int)Define.ProofGrade.매우약함;
-        else if (Proof <= Define.ProofGrade1LowerThan) return (int)Define.ProofGrade.약함;
-        else if (Proof <= Define.ProofGrade2LowerThan) return (int)Define.ProofGrade.중간;
-        else if (Proof <= Define.ProofGrade3LowerThan) return (int)Define.ProofGrade.셈;
-        else return (int)Define.ProofGrade.매우셈;
+        if (Proof <= Define.ProofGrade0LowerThan) return Define.ProofGrade.매우약함;
+        else if (Proof <= Define.ProofGrade1LowerThan) return Define.ProofGrade.약함;
+        else if (Proof <= Define.ProofGrade2LowerThan) return Define.ProofGrade.중간;
+        else if (Proof <= Define.ProofGrade3LowerThan) return Define.ProofGrade.셈;
+        else return Define.ProofGrade.매우셈;
     }
 
     public string Id { get; private set; }

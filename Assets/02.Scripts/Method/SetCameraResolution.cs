@@ -14,16 +14,13 @@ public class SetCameraResolution : MonoBehaviour
         //OnPreCull();
     }
 
-    public void SetResolution(Camera cam = null)
+    public void SetResolution()
     {
-        if (cam == null)
-            cam = Camera.main;
-        
         float targetResolution = horizontal / vertical;
         float currentResolution = (float)Screen.width / Screen.height;
 
         float aspectRatio = currentResolution / targetResolution;
-        Rect rect = cam.rect;
+        Rect rect = Camera.main.rect;
 
         if (aspectRatio < 1f)
         {
@@ -37,7 +34,7 @@ public class SetCameraResolution : MonoBehaviour
             rect.x = (1f - rAspectRatio) / 2f;
         }
 
-        cam.rect = rect;
+        Camera.main.rect = rect;
     }
 
     void OnPreCull()
