@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Sirenix.OdinInspector;
-using TMPro;
 using DG.Tweening;
 
 public enum GameState
