@@ -92,6 +92,9 @@ public class GameManager : MonoBehaviour
         Input.InputEscape += OnEscape;
         Input.InputRetryCocktail += OnRetryCocktail;
         OnGameStateChange += Data.OnGameStateChange;
+
+        //temp
+        Sound.Play(Define.SoundType.BGM, "jazz_bar", 0.7f);
     }
     private void OnDestroy()
     {
@@ -102,6 +105,8 @@ public class GameManager : MonoBehaviour
         Input.InputEscape -= OnEscape;
         Input.InputRetryCocktail -= OnRetryCocktail;
         OnGameStateChange -= Data.OnGameStateChange;
+
+        Input.Clear();
 
         DOTween.Clear();
     }
@@ -152,6 +157,7 @@ public class GameManager : MonoBehaviour
 
     void OnEscape()
     {
+        if (UI.TryClosePopupUI<BirdInfoWindow>()) return;
         if (UI.TryClosePopupUI<MaterialInfoWindow>()) return;
         if (UI.TryClosePopupUI<CheckBeforeShake>()) return;
         if (UI.TryClosePopupUI<OrderInfoWindow>()) return;

@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class UIBase_Popup : UIBase
 {
-    public bool DontDestroy { get; protected set; }
+    public bool DontDestroy { get; private set; }
+    public bool Inited { get; private set; } = false;
     public virtual void Init()
     {
         GameManager.UI.SetCanvasOrder(gameObject);
+    }
+    protected void SetPooling()
+    {
+        DontDestroy = true;
+        Inited = true;
     }
 }
