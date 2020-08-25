@@ -40,6 +40,8 @@ public class WarningUI : UIBase_Popup
         SetDefault();
         SetButtons();
 
+        GameManager.Instance.ignoreOnMouse = true;
+
         SetPooling();
     }
     private void OnEnable()
@@ -51,6 +53,13 @@ public class WarningUI : UIBase_Popup
             SetDefault();
 
         SetButtons();
+        GameManager.Instance.ignoreOnMouse = true;
+    }
+
+    private void OnDisable()
+    {
+        yes.onClick.RemoveAllListeners();
+        GameManager.Instance.ignoreOnMouse = false;
     }
 
     void SetDefault()
@@ -77,12 +86,6 @@ public class WarningUI : UIBase_Popup
                 yes.onClick.AddListener(() => { GameManager.UI.ClosePopupUI<WarningUI>(); });
                 break;
         }
-    }
-
-
-    private void OnDestroy()
-    {
-        ResetButtons();
     }
 
 }
