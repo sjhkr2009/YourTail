@@ -284,7 +284,7 @@ public class Flamingo : Customers
             requiredProofGrade: new List<Define.ProofGrade>() { Define.ProofGrade.셈, Define.ProofGrade.매우셈 });
         SetOrder(1, "향이 강한 칵테일 없을까? 알싸한 느낌으로다가~",
             requiredTags: new List<Define.CocktailTag>() { Define.CocktailTag.생강 });
-        SetOrder(1, "아이셔~아이셔~아이셔~ 신맛에 중독됐나봐 >.<",
+        SetOrder(1, "아이셔~아이셔~아이셔~ 신맛에 중독됐나봐 >.< ",
             requiredTags: new List<Define.CocktailTag>() { Define.CocktailTag.레몬 });
         #endregion
         #region 2단계 주문
