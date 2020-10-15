@@ -51,7 +51,10 @@ public class SelectMaterialUI : UIBase_Scene
 	}
 	enum RectTransforms
     {
-        MaterialMoveArea
+        MaterialMoveArea,
+        PageIcon1,
+        PageIcon2,
+        PageIcon3
     }
     enum Buttons
     {
@@ -59,10 +62,8 @@ public class SelectMaterialUI : UIBase_Scene
         NextButton,
         ResetButton,
         OrderButton,
-        Window1to2,
-        Window2to3,
-        Window2to1,
-        Window3to2
+        WindowNext,
+        WindowPrev
     }
     enum WindowObjects
     {
@@ -77,6 +78,33 @@ public class SelectMaterialUI : UIBase_Scene
     }
 
     Mode windowMode = Mode.SelectBase;
+    int _currentWindow;
+    int CurrentWindow
+    {
+        get => _currentWindow;
+        set
+        {
+            _currentWindow = value;
+            SetDotIcon(value);
+            switch (value)
+            {
+                case 0:
+                    GetButton((int)Buttons.WindowPrev).interactable = false;
+                    break;
+                case 1:
+                    GetButton((int)Buttons.WindowPrev).interactable = true;
+                    GetButton((int)Buttons.WindowNext).interactable = true;
+                    break;
+                case 2:
+                    GetButton((int)Buttons.WindowNext).interactable = false;
+                    break;
+                default:
+                    Debug.Log("[SelectMaterialUI] 재료 선택창 버튼 할당에 오류가 있습니다. 개발자에게 얘기해 주세요.");
+                    break;
+            }
+        }
+    }
+
     public Mode WindowMode
     {
         get => windowMode;
@@ -84,19 +112,20 @@ public class SelectMaterialUI : UIBase_Scene
         {
             windowMode = value;
             moveArea.DOKill();
+            GetButton((int)Buttons.PrevButton).onClick.RemoveAllListeners();
             GetButton((int)Buttons.NextButton).onClick.RemoveAllListeners();
             switch (value)
             {
                 case Mode.SelectBase:
                     moveArea.DOAnchorPos(new Vector2(screenWidth, 0), 0.3f);
-                    GetButton((int)Buttons.PrevButton).interactable = false;
+                    GetButton((int)Buttons.PrevButton).onClick.AddListener(() => { GameManager.Instance.GameState = GameState.Idle; });
                     GetButton((int)Buttons.NextButton).onClick.AddListener(() => { WindowMode = Mode.SelectSub; });
                     SetNextBtnSprite(true);
                     break;
 
                 case Mode.SelectSub:
                     moveArea.DOAnchorPos(new Vector2(0, 0), 0.3f);
-                    GetButton((int)Buttons.PrevButton).interactable = true;
+                    GetButton((int)Buttons.PrevButton).onClick.AddListener(() => { WindowMode = Mode.SelectBase; });
                     GetButton((int)Buttons.NextButton).onClick.AddListener(() => { GameManager.UI.OpenPopupUI<CheckBeforeShake>(); });
                     SetNextBtnSprite(false);
                     break;
@@ -110,7 +139,9 @@ public class SelectMaterialUI : UIBase_Scene
 
     RectTransform moveArea;
     List<GameObject> windows = new List<GameObject>();
+    List<RectTransform> dotIcons = new List<RectTransform>();
     float screenWidth;
+    OnSwipe onSwipe;
 
     void Start() => Init();
     public override void Init()
@@ -124,6 +155,10 @@ public class SelectMaterialUI : UIBase_Scene
         Bind<BaseSelectedIcon>(typeof(BaseSelectedIcons));
         Bind<SubSelectedIcon>(typeof(SubSelectedIcons));
         Bind<Image>(typeof(Images));
+
+        //onSwipe = gameObject.GetOrAddComponent<OnSwipe>();
+        //onSwipe.EventOnSwipe -= MoveWindow;
+        //onSwipe.EventOnSwipe += MoveWindow;
 
         screenWidth = Define.UIRefResolution.x;
         moveArea = Get<RectTransform>((int)RectTransforms.MaterialMoveArea);
@@ -159,29 +194,67 @@ public class SelectMaterialUI : UIBase_Scene
     }
     void SetButtons()
     {
-        GetButton((int)Buttons.PrevButton).onClick.AddListener(() => { WindowMode = Mode.SelectBase; });
+        GetButton((int)Buttons.PrevButton).onClick.AddListener(() => { GameManager.Instance.GameState = GameState.Idle; });
         GetButton((int)Buttons.NextButton).onClick.AddListener(() => { WindowMode = Mode.SelectSub; });
-        GetButton((int)Buttons.PrevButton).interactable = false;
+        //GetButton((int)Buttons.PrevButton).interactable = false;
 
         GetButton((int)Buttons.ResetButton).onClick.AddListener(GameManager.Data.ResetSelected);
         GetButton((int)Buttons.OrderButton).onClick.AddListener(() => { GameManager.UI.OpenPopupUI<OrderInfoWindow>(); });
 
-        GetButton((int)Buttons.Window1to2).onClick.AddListener(() => { windows.OpenWindow(1); });
-        GetButton((int)Buttons.Window2to3).onClick.AddListener(() => { windows.OpenWindow(2); });
-        GetButton((int)Buttons.Window2to1).onClick.AddListener(() => { windows.OpenWindow(0); });
-        GetButton((int)Buttons.Window3to2).onClick.AddListener(() => { windows.OpenWindow(1); });
+        GetButton((int)Buttons.WindowNext).onClick.AddListener(() => { MoveWindow(true); });
+        GetButton((int)Buttons.WindowPrev).onClick.AddListener(() => { MoveWindow(false); });
 
         SetNextBtnSprite(true);
     }
 
+    public void MoveWindow(bool toNext)
+    {
+        if (WindowMode == Mode.SelectBase)
+            return;
+        if (CurrentWindow <= 0 && !toNext)
+            return;
+        if (CurrentWindow >= 2 && toNext)
+            return;
+        
+        if (toNext)
+            windows[CurrentWindow].SwipeWindow(windows[CurrentWindow + 1], true);
+        else
+            windows[CurrentWindow].SwipeWindow(windows[CurrentWindow - 1], false);
+
+        CurrentWindow = toNext ? CurrentWindow + 1 : CurrentWindow - 1;
+    }
+
     void SetWindows()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = (int)WindowObjects.Window1; i <= (int)WindowObjects.Window3; i++)
 		{
             windows.Add(Get<GameObject>(i));
             windows[i].SetActive(false);
         }
         windows.OpenWindow(0);
+
+        for (int i = (int)RectTransforms.PageIcon1; i <= (int)RectTransforms.PageIcon3; i++)
+        {
+            dotIcons.Add(Get<RectTransform>(i));
+        }
+        dotIcons[0].localScale = Vector3.one * Define.SelectedDotIconScale;
+    }
+
+    void SetDotIcon(int index)
+    {
+        for (int i = 0; i < dotIcons.Count; i++)
+        {
+            dotIcons[i].DOKill();
+
+            if(i == index)
+            {
+                dotIcons[i].DOScale(Define.SelectedDotIconScale, 0.3f);
+            }
+            else if(dotIcons[i].localScale.x != 1f)
+            {
+                dotIcons[i].DOScale(1f, 0.3f);
+            }
+        }
     }
 
     void SetNextBtnSprite(bool isArrow)
@@ -196,8 +269,11 @@ public class SelectMaterialUI : UIBase_Scene
         moveArea.anchoredPosition = new Vector2(screenWidth, 0);
 
         GetButton((int)Buttons.NextButton).onClick.RemoveAllListeners();
+        GetButton((int)Buttons.PrevButton).onClick.RemoveAllListeners();
+        GetButton((int)Buttons.PrevButton).onClick.AddListener(() => { GameManager.Instance.GameState = GameState.Idle; });
         GetButton((int)Buttons.NextButton).onClick.AddListener(() => { WindowMode = Mode.SelectSub; });
-        GetButton((int)Buttons.PrevButton).interactable = false;
+        //GetButton((int)Buttons.PrevButton).interactable = false;
+
         SetNextBtnSprite(true);
 
         for (int i = 0; i < (int)BaseSelectedIcons.Count; i++)

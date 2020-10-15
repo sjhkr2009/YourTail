@@ -18,6 +18,8 @@ public class ShakeCocktail : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public Slider processUI;
     public Image processColor;
     float process;
+    float moveDist;
+    float processPerSecond;
 
     public Action OnMakingEnd = () => { };
 
@@ -52,8 +54,11 @@ public class ShakeCocktail : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (isEnd) return;
 
         transform.position = eventData.position;
-        process += Mathf.Clamp(((Vector2)transform.position - prevPos).magnitude, 0f, 30f * Time.deltaTime);
-        prevPos = transform.position;
+        moveDist = Vector2.Distance(eventData.position, prevPos);
+        processPerSecond = Mathf.Clamp(moveDist, 0f, Define.CocktailMakingProcess_Max);
+
+        process += processPerSecond * Time.deltaTime;
+        prevPos = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -82,7 +87,7 @@ public class ShakeCocktail : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             yield return null;
 
-            process += (Define.CocktailMakingProcess * Time.deltaTime);
+            process += (Define.CocktailMakingProcess_Default * Time.deltaTime);
             UpdateProcessUI(process);
         }
         transform.DOKill();

@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 public class CustomerTable : MonoBehaviour, IPointerClickHandler
 {
     [ShowInInspector, ReadOnly] public Customers currentCustomer;
+    [ShowInInspector, ReadOnly] public int myIndex;
     [SerializeField] Image myImage;
     public Action<Customers> EventOnSelectCustomer = c => { };
 
@@ -28,6 +29,7 @@ public class CustomerTable : MonoBehaviour, IPointerClickHandler
         if (IsEmpty || currentCustomer == null)
             return;
 
+        GameManager.Data.CurrentTableIndex = myIndex;
         EventOnSelectCustomer(currentCustomer);
     }
 
@@ -45,5 +47,6 @@ public class CustomerTable : MonoBehaviour, IPointerClickHandler
         currentCustomer = null;
         IsEmpty = true;
         gameObject.SetActive(false);
+
 	}
 }

@@ -15,6 +15,8 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
+    public float PlayTime { get; private set; }
+    
     //Singleton
     public static GameManager Instance { get; private set; }
 
@@ -38,6 +40,9 @@ public class GameManager : MonoBehaviour
     public static UIManager UI => Instance._ui;
     SoundManager _sound = new SoundManager();
     public static SoundManager Sound => Instance._sound;
+
+    BirdStories _dialog = new BirdStories();
+    public static BirdStories Dialog => Instance._dialog;
 
     public Action<GameState> OnGameStateChange = n => { };
     [SerializeField, ReadOnly] private GameState _gameState = GameState.Idle;
@@ -72,6 +77,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _data.LoadFromPlayerPrefs();
+        _dialog.DialogSetting();
 
         Sound.Init();
         UI.Init();
@@ -86,6 +92,8 @@ public class GameManager : MonoBehaviour
         Input.InputRetryCocktail += OnRetryCocktail;
         OnGameStateChange += Data.OnGameStateChange;
 
+        PlayTime = 0f;
+
         //temp
         Sound.Play(Define.SoundType.BGM, "jazz_bar", 0.07f);
 
@@ -97,7 +105,6 @@ public class GameManager : MonoBehaviour
         _data.SaveToPlayerPrefs();
         
         Input.InputStateChange -= StateChange;
-        //Input.InputNextState -= InNextState;
         Input.InputEscape -= OnEscape;
         Input.InputRetryCocktail -= OnRetryCocktail;
         OnGameStateChange -= Data.OnGameStateChange;
@@ -110,11 +117,12 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         Input.OnUpdate();
+        PlayTime += Time.deltaTime;
     }
 
     void MainInIdle()
     {
-        
+        UI.CloseSceneUI<SelectMaterialUI>();
     }
 
     void MainInSelect()
@@ -130,9 +138,11 @@ public class GameManager : MonoBehaviour
         UI.CloseSceneUI<SelectMaterialUI>();
         UI.OpenPopupUI<CocktailReactionUI>();
     }
-
+    
     public void SetDialog()
     {
+        Data.DeleteCustomer();
+
         if (Data.levelUp)
             UI.OpenPopupUI<DialogUI>();
         else

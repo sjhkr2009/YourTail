@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public static class Extension
 {
@@ -38,6 +39,27 @@ public static class Extension
         }
 
         return null;
+    }
+
+    public static void SwipeWindow(this GameObject from, GameObject to, bool toRight)
+    {
+        RectTransform fromPos = from.GetComponent<RectTransform>();
+        RectTransform toPos = to.GetComponent<RectTransform>();
+
+        fromPos.DOKill();
+        toPos.DOKill();
+
+        float horizontalSize = Define.UIRefResolution.x;
+        int rightDirection = toRight ? 1 : -1;
+
+        fromPos.DOAnchorPosX(-rightDirection * horizontalSize, 0.2f).OnComplete(() =>
+        {
+            fromPos.anchoredPosition = Vector2.zero;
+            from.SetActive(false);
+        });
+        to.SetActive(true);
+        toPos.anchoredPosition = new Vector2(rightDirection * horizontalSize, 0);
+        toPos.DOAnchorPosX(0, 0.25f);
     }
 
     public static void OpenWindow(this List<GameObject> windowList, int index)
@@ -87,4 +109,8 @@ public static class Extension
         return target;
     }
 
+    public static void SetCanvasOrder(this GameObject gameObject, bool isPopup = true, int customOrder = int.MinValue)
+	{
+        GameManager.UI.SetCanvasOrder(gameObject, isPopup, customOrder);
+	}
 }

@@ -22,8 +22,10 @@ public class TablesUI : UIBase_Scene
 		{
 			Get<CustomerTable>(i).EventOnSelectCustomer -= GetOrder;
 			Get<CustomerTable>(i).EventOnSelectCustomer += GetOrder;
+			Get<CustomerTable>(i).myIndex = i;
 		}
-
+		GameManager.Data.DeleteCustomer -= DeleteCustomer;
+		GameManager.Data.DeleteCustomer += DeleteCustomer;
 		GameManager.Instance.OnGameStateChange -= OnGameStateChange;
 		GameManager.Instance.OnGameStateChange += OnGameStateChange;
 		StopAllCoroutines();
@@ -39,10 +41,6 @@ public class TablesUI : UIBase_Scene
 			case GameState.Idle:
 				//if (selectUI.activeSelf) selectUI.SetActive(false);
 				StartCoroutine(nameof(SetTable));
-				break;
-			case GameState.SetCocktail:
-				DeleteCustomer(GameManager.Data.CurrentCustomer);
-				StopAllCoroutines();
 				break;
 			default:
 				StopAllCoroutines();
@@ -118,13 +116,13 @@ public class TablesUI : UIBase_Scene
 	}
 	public void CancelOrder()
 	{
-
+		
 	}
-	void DeleteCustomer(Customers target)
+	void DeleteCustomer()
 	{
 		for (int i = 0; i < (int)Tables.Count; i++)
 		{
-			if (Get<CustomerTable>(i).currentCustomer == target)
+			if (Get<CustomerTable>(i).currentCustomer == GameManager.Data.CurrentCustomer)
 			{
 				Get<CustomerTable>(i).DeleteCustomer();
 				break;
