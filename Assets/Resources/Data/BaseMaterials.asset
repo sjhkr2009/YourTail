@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BaseMaterials
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 0067e16d611460a41adf255518039209, type: 3}
+  - {fileID: 21300000, guid: 5516418e0b91b724886caef726cf20c3, type: 3}
   - {fileID: 21300000, guid: 5516418e0b91b724886caef726cf20c3, type: 3}
   - {fileID: 21300000, guid: 7749239233d78a84fbba700d1946cfbf, type: 3}
   - {fileID: 21300000, guid: 20a9f5e9c5b10ff489b1ae2e2a9de902, type: 3}
