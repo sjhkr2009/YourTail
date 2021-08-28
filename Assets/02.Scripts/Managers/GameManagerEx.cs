@@ -7,7 +7,7 @@ using DG.Tweening;
 
 public class GameManagerEx
 {
-    public static ScriptableData GameData => GameManager.Resource.LoadDatabase();
+    public static DataManager GameData => GameManager.Data;
     
     public List<Customers> CustomerList { get; private set; } = new List<Customers>();
     public Dictionary<string, Customers> CustomerNameData { get; private set; } = new Dictionary<string, Customers>();
@@ -27,7 +27,11 @@ public class GameManagerEx
 
     public List<Cocktail> Recipe { get; set; } = new List<Cocktail>();
     public List<SubMaterials> CollectedMaterial { get; set; } = new List<SubMaterials>();
-    public int BirdCoin { get; private set; }
+
+    public int BirdCoin {
+        get => GameData.Birdcoin;
+        set => GameData.Birdcoin = value;
+    }
     public event Action<int> OnSetCoin = n => { };
     public void SetBirdCoin(int value)
     {
@@ -144,6 +148,8 @@ public class GameManagerEx
         GameManager.Data.AddRecipe(CocktailList[2]);
         GameManager.Data.AddRecipe(CocktailList[3]);
         GameManager.Data.AddRecipe(CocktailList[4]);
+        
+        GameData.Load();
     }
     void RemoveEvent()
 	{
@@ -621,10 +627,9 @@ public class GameManagerEx
             GameData.SetLevel(item.Name, item.Level);
             GameData.SetExp(item.Name, item.Exp);
         }
-        GameData.SetBirdcoin(BirdCoin);
         foreach (Cocktail item in Recipe)
         {
-            GameData.SetRecipe(item.Id);
+            GameData.AddRecipe(item.Id);
         }
     }
     [Button]
@@ -675,6 +680,7 @@ public class GameManagerEx
     }
     void CurrentReset()
     {
+        GameData.Save();
         CurrentCustomer = null;
         CurrentOrder = null;
         CurrentCocktail = null;

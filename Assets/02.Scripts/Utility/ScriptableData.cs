@@ -5,7 +5,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Database", menuName = "CustomDatabase/Database", order = int.MinValue + 2)]
 public class ScriptableData : ScriptableObject
-{
+{/*
     [ShowInInspector, ReadOnly] public Dictionary<string, int> CustomerLevel { get; private set; } = new Dictionary<string, int>() { };
     [ShowInInspector, ReadOnly] public Dictionary<string, int> CustomerExp { get; private set; } = new Dictionary<string, int>() { };
     int CustomerCount => CustomerLevel.Count;
@@ -148,5 +148,5 @@ public class ScriptableData : ScriptableObject
         CollectedSubmaterial.Clear();
         Birdcoin = 0;
         PlayerPrefs.DeleteAll();
-    }
+    }*/
 }

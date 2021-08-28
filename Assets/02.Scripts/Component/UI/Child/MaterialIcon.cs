@@ -37,7 +37,7 @@ public class MaterialIcon : MonoBehaviour, IPointerClickHandler
 		{
             _isActive = value;
 
-            ColorFiltering(GameManager.Instance.IsDebuggingMode);
+            ColorFiltering();
         }
 	}
 
@@ -45,28 +45,23 @@ public class MaterialIcon : MonoBehaviour, IPointerClickHandler
 	{
         GameManager.Game.OnValidUpdate -= SetValid;
         GameManager.Game.OnValidUpdate += SetValid;
-
-        GameManager.Instance.EventOnDebugModeChange -= ColorFiltering;
-        GameManager.Instance.EventOnDebugModeChange += ColorFiltering;
     }
 
-    void ColorFiltering(bool isDebugMode)
+    void ColorFiltering()
     {
-        float alpha = (!isDebugMode || IsActive) ? 1f : 0.5f;
+        float alpha = IsActive ? 1f : 0.35f;
         _myImage.color = new Color(alpha, alpha, alpha, alpha);
     }
 	public void OnPointerClick(PointerEventData eventData)
     {
-        // Temp: 비활성화된 재료도 선택 가능하게 변경
-        // if (!IsActive) return;
+        if (!IsActive) return;
         
         GameManager.Input.InMaterialSelect(_myMaterial.Id);
     }
 
     void SetValid()
 	{
-        // Temp: 베이스 재료도 필터링 대상에 포함
-        // if (_myMaterial.materialType == CocktailMaterials.MaterialType.Base) return;
+        if (_myMaterial.materialType == CocktailMaterials.MaterialType.Base) return;
 
         if (GameManager.Game.CurrentSubMaterials.Count == 0 && GameManager.Game.CurrentBaseMaterials.Count == 0)
 		{
