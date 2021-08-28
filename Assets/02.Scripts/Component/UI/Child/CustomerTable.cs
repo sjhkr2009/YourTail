@@ -38,6 +38,7 @@ public class CustomerTable : MonoBehaviour, IPointerClickHandler
         gameObject.SetActive(true);
         currentCustomer = bird;
         myImage.sprite = bird.Image;
+        GameManager.Sound.Play(Define.SoundType.FX, bird.soundName);
         IsEmpty = false;
 	}
     

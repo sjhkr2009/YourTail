@@ -70,7 +70,7 @@ public class TablesUI : UIBase_Scene
 
 	IEnumerator SetTable()
 	{
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(5f);
 
 		while (GameManager.Instance.GameState == GameState.Idle)
 		{
@@ -101,7 +101,7 @@ public class TablesUI : UIBase_Scene
 				}
 			}
 
-			yield return new WaitForSeconds(2f);
+			yield return new WaitForSeconds(5f);
 		}
 	}
 	bool HasEmptyTable()
@@ -130,6 +130,7 @@ public class TablesUI : UIBase_Scene
 
 		GameManager.Game.SelectCustomer(customer);
 		GameManager.UI.OpenPopupUI<OrderBubble>().tablesUI = this;
+		GameManager.Sound.Play(Define.SoundType.FX, "order_bell");
 		//foreach (Table item in tables)
 		//	item.SetLayer(customer == item.currentCustomer);
 		//selectUI.SetActive(true);

@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
         PlayTime = 0f;
 
         //temp
-        Sound.Play(Define.SoundType.BGM, "jazz_bar", 0.07f);
+        Sound.Play(Define.SoundType.BGM, "jazz_bar", 1f);
 
         if (GameState != GameState.Idle)
             DOVirtual.DelayedCall(0.1f, () => { GameState = GameState.Idle; });

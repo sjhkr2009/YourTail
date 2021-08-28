@@ -319,6 +319,7 @@ public class GameManagerEx
                 CurrentCorrectCheck();
                 break;
             case GameState.SetCocktail:
+                PlayEvaluationSound();
                 CurrentCustomer.ResetOrder();
                 SaveData();
                 break;
@@ -456,6 +457,16 @@ public class GameManagerEx
     void CurrentCorrectCheck()
     {
         CurrentGrade = CorrectCheck(CurrentCocktail, CurrentOrder);
+    }
+
+    void PlayEvaluationSound()
+    {
+        if (CurrentGrade < 0)
+            GameManager.Sound.Play(Define.SoundType.FX, "bad");
+        else if (CurrentGrade > 0)
+            GameManager.Sound.Play(Define.SoundType.FX, "good");
+        else
+            GameManager.Sound.Play(Define.SoundType.FX, "soso");
     }
 
     /// <summary>

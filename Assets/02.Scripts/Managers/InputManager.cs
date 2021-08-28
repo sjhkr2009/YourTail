@@ -20,6 +20,9 @@ public class InputManager
     public void InEscape() => InputEscape();
     public void OnUpdate()
     {
+        if (Input.anyKeyDown)
+            GameManager.Sound.Play(Define.SoundType.FX, "click");
+
         if (Input.GetKeyDown(KeyCode.Escape))
             InputEscape();
     }
