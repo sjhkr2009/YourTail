@@ -30,34 +30,34 @@ public class GameManagerEx
 
     public int BirdCoin {
         get => GameData.Birdcoin;
-        set => GameData.Birdcoin = value;
+        private set => GameData.Birdcoin = value;
     }
-    public event Action<int> OnSetCoin = n => { };
+    public event Action<int> OnSetCoin = null;
     public void SetBirdCoin(int value)
     {
         BirdCoin = value;
-        OnSetCoin(value);
+        OnSetCoin?.Invoke(value);
     }
     public void AddBirdCoin(int value)
     {
         BirdCoin += value;
-        OnSetCoin(BirdCoin);
+        OnSetCoin?.Invoke(BirdCoin);
     }
 
     [ShowInInspector] private Order _currentOrder { get; set; }
-    public event Action<Order> OnSetOrder = n => { };
+    public event Action<Order> OnSetOrder;
     public Order CurrentOrder
     {
         get => _currentOrder;
         set
         {
             _currentOrder = value;
-            OnSetOrder(value);
+            OnSetOrder?.Invoke(value);
         }
     }
     [ShowInInspector, ReadOnly] public int CurrentTableIndex { get; set; }
     [ShowInInspector] private Customers _currentCustomer { get; set; }
-    public event Action<Customers> OnSetCustomer = n => { };
+    public event Action<Customers> OnSetCustomer;
     public Action DeleteCustomer = () => { };
     public Customers CurrentCustomer
     {
@@ -65,18 +65,18 @@ public class GameManagerEx
         set
         {
             _currentCustomer = value;
-            if (value != null) OnSetCustomer(value);
+            if (value != null) OnSetCustomer?.Invoke(value);
         }
     }
     [ShowInInspector] private Cocktail _currentCocktail { get; set; }
-    public event Action<Cocktail> OnSetCocktail = n => { };
+    public event Action<Cocktail> OnSetCocktail;
     public Cocktail CurrentCocktail
     {
         get => _currentCocktail;
         set
         {
             _currentCocktail = value;
-            OnSetCocktail(value);
+            OnSetCocktail?.Invoke(value);
         }
     }
 
@@ -88,33 +88,33 @@ public class GameManagerEx
     public void AddCurrentBase(BaseMaterials item)
     {
         CurrentBaseMaterials.Add(item);
-        OnAddBaseMaterial(item);
+        OnAddBaseMaterial?.Invoke(item);
         SetValidMaterials();
     }
     public void RemoveCurrentBase(BaseMaterials item)
     {
         CurrentBaseMaterials.Remove(item);
-        OnRemoveBaseMaterial(item);
+        OnRemoveBaseMaterial?.Invoke(item);
         SetValidMaterials();
     }
 
     public void AddCurrentSub(SubMaterials item)
     {
         CurrentSubMaterials.Add(item);
-        OnAddSubMaterial(item);
+        OnAddSubMaterial?.Invoke(item);
         SetValidMaterials();
     }
     public void RemoveCurrentSub(SubMaterials item)
     {
         CurrentSubMaterials.Remove(item);
-        OnRemoveSubMaterial(item);
+        OnRemoveSubMaterial?.Invoke(item);
         SetValidMaterials();
     }
-    public event Action<BaseMaterials> OnAddBaseMaterial = n => { };
-    public event Action<BaseMaterials> OnRemoveBaseMaterial = n => { };
-    public event Action<SubMaterials> OnAddSubMaterial = n => { };
-    public event Action<SubMaterials> OnRemoveSubMaterial = n => { };
-    public event Action OnValidUpdate = () => { };
+    public event Action<BaseMaterials> OnAddBaseMaterial;
+    public event Action<BaseMaterials> OnRemoveBaseMaterial;
+    public event Action<SubMaterials> OnAddSubMaterial;
+    public event Action<SubMaterials> OnRemoveSubMaterial;
+    public event Action OnValidUpdate;
 
     // 칵테일 완성 후 평가 점수. GOOD/SOSO/BAD 중 하나의 결과를 각각 1, 0, -1의 정수로 가지고 있습니다.
     public int CurrentGrade { get; private set; }
@@ -331,7 +331,7 @@ public class GameManagerEx
             case GameState.Idle:
                 break;
             case GameState.Select:
-                OnValidUpdate();
+                OnValidUpdate?.Invoke();
                 break;
             case GameState.Combine:
                 if(CurrentCocktail != null && !CurrentCocktail.IsDefault)
@@ -564,7 +564,7 @@ public class GameManagerEx
 
         if ((CurrentBaseMaterials.Count + CurrentSubMaterials.Count) == 0)
         {
-            OnValidUpdate();
+            OnValidUpdate?.Invoke();
             return;
         }
 
@@ -601,7 +601,7 @@ public class GameManagerEx
             }
 		}
 
-        OnValidUpdate();
+        OnValidUpdate?.Invoke();
     }
 
     #endregion
