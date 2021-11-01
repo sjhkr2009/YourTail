@@ -17,6 +17,7 @@ public class CocktailMaking : UIBase_Popup
         shake.OnMakingEnd -= OnEnd;
         shake.OnMakingEnd += OnEnd;
 
+        GameManager.Sound.Play(Define.SoundType.LoopFX, "cocktail_making");
     }
 
     public Action OnEndMaking = () => { };
@@ -26,6 +27,7 @@ public class CocktailMaking : UIBase_Popup
         shake.OnMakingEnd -= OnEnd;
         OnEndMaking();
         OnEndMaking = null;
+        GameManager.Sound.Stop(Define.SoundType.LoopFX);
         GameManager.UI.ClosePopupUI<CocktailMaking>();
     }
 }

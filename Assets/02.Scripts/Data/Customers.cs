@@ -7,6 +7,7 @@ public class Customers
     #region 기본 정보
     public string Name { get; protected set; }
     public string ID { get; private set; }
+    public string soundName;
     public Define.CustomerType CustomerType { get; private set; }
     public Sprite Image { get; set; }
     public bool IsActive { get; set; }
@@ -147,7 +148,7 @@ public class Eagle : Customers
     {
         Name = "머머리 독수리";
         Liking = "(임시) 칵테일바가 낯선 어르신으로, 평소엔 도수만 맞춰서 마시지만 가끔씩은 칵테일에 관심을 보입니다.";
-
+        soundName = "eagle";
         #region 1단계 주문
         SetOrder(1, "제일 독한걸로 하나 줘 보게. 요즘 술들은 술 같지가 않아.",
             requiredProofGrade: new List<Define.ProofGrade>() { Define.ProofGrade.매우셈 });
@@ -210,6 +211,7 @@ public class Parrot : Customers
     {
         Name = "앵무새";
         Liking = "(임시) 기분에 따라 주문하는 경우가 많습니다.";
+        soundName = "parrrot";
 
         #region 1단계 주문
         SetOrder(1, "오렌지 나무에서 나는 향이 맡고 싶어요.",
@@ -278,7 +280,7 @@ public class Flamingo : Customers
     {
         Name = "홍학";
         Liking = "(임시) 요구사항은 대부분 간단하지만 표현력이 풍부합니다.";
-
+        soundName = "flamingo";
         #region 1단계 주문
         SetOrder(1, "강하면서 상큼한 칵테일 어디 없을까?나는 레몬보단 라임을 좋아해^^",
             requiredCocktail: new List<CocktailName>() { CocktailName.Gimlet });
@@ -343,9 +345,9 @@ public class Swan : Customers
     {
         Name = "고니";
         Liking = "(임시) 칵테일명으로 주문하거나, 특정 칵테일을 요구하는 경우가 많습니다.";
-
-		#region 1단계 주문
-		SetOrder(1, "얼마전 친구의 웨딩드레스에 꽂을 '오렌지 꽃'을 선물했어요. 그 꽃을 추억하고 싶어요. 오렌지 블로섬 하나 주세요.",
+        soundName = "swan";
+        #region 1단계 주문
+        SetOrder(1, "얼마전 친구의 웨딩드레스에 꽂을 '오렌지 꽃'을 선물했어요. 그 꽃을 추억하고 싶어요. 오렌지 블로섬 하나 주세요.",
             requiredCocktail: new List<CocktailName>() { CocktailName.OrangeBlossom });
         SetOrder(1, "드라이하고 강한 칵테일 없을까? 추천 부탁드려요.",
             requiredCocktail: new List<CocktailName>() { CocktailName.DryMartini });
@@ -405,7 +407,7 @@ public class Penguin : Customers
     {
         Name = "펭귄";
         Liking = "(임시) 칵테일 이름은 잘 모르지만, 여러 가지 식물을 잘 알고 있습니다.";
-
+        soundName = "penguin";
         #region 1단계 주문
         SetOrder(1, "\'댁길라\'라는 술이 들어간 칵테일이 맛있다고 들었는데... 그게 먹어보고 싶어요오. 약하게 해주세요오.",
             requiredTags: new List<Define.CocktailTag>() { Define.CocktailTag.데킬라 },

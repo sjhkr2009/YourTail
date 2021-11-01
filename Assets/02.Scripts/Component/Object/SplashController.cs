@@ -11,7 +11,7 @@ public class SplashController : MonoBehaviour
     [SerializeField] SpriteRenderer featherImage;
 
     void Start()
-    {
+    {   
         DOVirtual.DelayedCall(1.5f, () =>
         {
             baseImage.DOKill();
