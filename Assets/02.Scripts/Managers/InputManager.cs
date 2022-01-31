@@ -12,19 +12,22 @@ public class InputManager
     public event Action InputRetryCocktail;
     public event Action InputEscape;
 
-    public void InMaterialSelect(string id) => InputMaterialSelect(id);
-    public void InMaterialInfo(CocktailMaterials material) => InputMaterialInfo(material);
-    public void InBirdInfo(Customers customer) => InputBirdInfo(customer);
-    public void InStateChange(GameState state) => InputStateChange(state);
-    public void InRetryCocktail() => InputRetryCocktail();
-    public void InEscape() => InputEscape();
+    public void InMaterialSelect(string id) => InputMaterialSelect?.Invoke(id);
+    public void InMaterialInfo(CocktailMaterials material) => InputMaterialInfo?.Invoke(material);
+    public void InBirdInfo(Customers customer) => InputBirdInfo?.Invoke(customer);
+    public void InStateChange(GameState state) => InputStateChange?.Invoke(state);
+    public void InRetryCocktail() => InputRetryCocktail?.Invoke();
+    public void InEscape() => InputEscape?.Invoke();
     public void OnUpdate()
     {
         if (Input.anyKeyDown)
             GameManager.Sound.Play(Define.SoundType.FX, "click");
 
         if (Input.GetKeyDown(KeyCode.Escape))
-            InputEscape();
+            InputEscape?.Invoke();
+
+        if (Input.GetKeyDown(KeyCode.T)) // Test
+            GameManager.UI.OpenPopupUI<TutorialUI>();
     }
     public void Clear()
     {
